@@ -13,17 +13,20 @@ const EventList = () => {
   const { data, error } = useData()
   const [type, setType] = useState()
   const [currentPage, setCurrentPage] = useState(1)
-  const filteredEvents = ((!type ? data?.events : data?.events) || []).filter(
-    (event, index) => {
-      if (
-        (currentPage - 1) * PER_PAGE <= index &&
-        PER_PAGE * currentPage > index
-      ) {
-        return true
-      }
-      return false
+  // Filtrage des évènements par type en fonction du type selectionné dans le menu déroulant. De base la valeur est indéfinie
+  const eventCategory = !type
+    ? data?.events
+    : data?.events.filter((event) => event.type === type)
+  // filteredEvents contient les événements filtrés en fonction de la page actuelle et du type sélectionné. Le filtre vérifie si l’index de l’événement se trouve dans la plage des événements à afficher pour la page actuelle. Si eventCategorie est null ou undefined, un tableau vide [] sera utilisé pour éviter des erreurs lors de l’appel de .filter().
+  const filteredEvents = (eventCategory || []).filter((event, index) => {
+    if (
+      (currentPage - 1) * PER_PAGE <= index &&
+      PER_PAGE * currentPage > index
+    ) {
+      return true
     }
-  )
+    return false
+  })
   const changeType = (evtType) => {
     setCurrentPage(1)
     setType(evtType)

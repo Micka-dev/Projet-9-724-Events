@@ -16,9 +16,10 @@ const Select = ({
   const [value, setValue] = useState()
   const [collapsed, setCollapsed] = useState(true)
   const changeValue = (newValue) => {
-    onChange()
+    // Ajout de newValue à onChange pour qu'il prenne en compte les changements de sélection de filtre et permette au composant parent EventList de savoir que la selection a changé
+    onChange(newValue)
     setValue(newValue)
-    setCollapsed(newValue)
+    setCollapsed(!collapsed)
   }
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
