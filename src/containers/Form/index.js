@@ -1,28 +1,31 @@
-import { useCallback, useState } from "react";
-import PropTypes from "prop-types";
-import Field, { FIELD_TYPES } from "../../components/Field";
-import Select from "../../components/Select";
-import Button, { BUTTON_TYPES } from "../../components/Button";
+import { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
+import Field, { FIELD_TYPES } from '../../components/Field'
+import Select from '../../components/Select'
+import Button, { BUTTON_TYPES } from '../../components/Button'
 
-const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500); })
+const mockContactApi = () =>
+  new Promise((resolve) => {
+    setTimeout(resolve, 500)
+  })
 
 const Form = ({ onSuccess, onError }) => {
-  const [sending, setSending] = useState(false);
+  const [sending, setSending] = useState(false)
   const sendContact = useCallback(
     async (evt) => {
-      evt.preventDefault();
-      setSending(true);
+      evt.preventDefault()
+      setSending(true)
       // We try to call mockContactApi
       try {
-        await mockContactApi();
-        setSending(false);
+        await mockContactApi()
+        setSending(false)
       } catch (err) {
-        setSending(false);
-        onError(err);
+        setSending(false)
+        onError(err)
       }
     },
     [onSuccess, onError]
-  );
+  )
   return (
     <form onSubmit={sendContact}>
       <div className="row">
@@ -30,7 +33,7 @@ const Form = ({ onSuccess, onError }) => {
           <Field placeholder="" label="Nom" />
           <Field placeholder="" label="Prénom" />
           <Select
-            selection={["Personel", "Entreprise"]}
+            selection={['Personel', 'Entreprise']}
             onChange={() => null}
             label="Personel / Entreprise"
             type="large"
@@ -38,7 +41,7 @@ const Form = ({ onSuccess, onError }) => {
           />
           <Field placeholder="" label="Email" />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
-            {sending ? "En cours" : "Envoyer"}
+            {sending ? 'En cours' : 'Envoyer'}
           </Button>
         </div>
         <div className="col">
@@ -50,8 +53,8 @@ const Form = ({ onSuccess, onError }) => {
         </div>
       </div>
     </form>
-  );
-};
+  )
+}
 
 Form.propTypes = {
   onError: PropTypes.func,
@@ -63,4 +66,4 @@ Form.defaultProps = {
   onSuccess: () => null,
 }
 
-export default Form;
+export default Form
